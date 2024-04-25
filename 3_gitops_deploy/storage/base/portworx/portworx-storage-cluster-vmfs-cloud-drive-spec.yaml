@@ -1,0 +1,63 @@
+# Generate storage spec to match your underlying storage system for portwrox to bind to with CSI driver link
+# https://central.portworx.com/specGen/wizard
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=portworx&b=true&iop=6&s=%22size%3D150%22&pureSanType=ISCSI&r=17001&c=px-cluster-iscsi-5bc24422-d585-4a6e-9af8-313cd3218f18&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&vsp=true&vc=ps-vcenter-02.ps.labs.local&vcp=443&ds=portwrox-&s=%22type%3Dlazyzeroedthick%2Csize%3D150%22&r=17001&c=px-cluster-a9950af8-8c69-4279-a25a-7ba0315282a9&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+# This is spec file for Portworx to use for Storage:  Type: PureAllFlash Class: iSCSI With use of non-dedicated NIC / VM
+# Spec saved in pureone as: https://central.portworx.com/specGen/list    portworx-pure-allflash-iscsi-spec
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&vsp=true&vc=ps-vcenter-02.ps.labs.local&vcp=443&ds=pw-vmfs-&s=%22type%3Dlazyzeroedthick%2Csize%3D150%22&r=17001&c=px-cluster-16591fe2-d456-4398-978b-289da8adfcd0&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-cluster-16591fe2-d456-4398-978b-289da8adfcd0
+  namespace: k8-storage
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&vsp=true&vc=ps-vcenter-02.ps.labs.local&vcp=443&ds=pw-vmfs-&s=%22type%3Dlazyzeroedthick%2Csize%3D150%22&r=17001&c=px-cluster-16591fe2-d456-4398-978b-289da8adfcd0&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true"
+    portworx.io/is-openshift: "true"
+spec:
+  image: portworx/oci-monitor:3.0.4
+  imagePullPolicy: Always
+  kvdb:
+    internal: true
+  cloudStorage:
+    deviceSpecs:
+    - type=lazyzeroedthick,size=150
+  secretsProvider: k8s
+  startPort: 17001
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "true"
+  autopilot:
+    enabled: true
+  runtimeOptions:
+    default-io-profile: "6"
+  csi:
+    enabled: true
+  monitoring:
+    telemetry:
+      enabled: true
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  env:
+  - name: VSPHERE_INSECURE
+    value: "true"
+  - name: VSPHERE_USER
+    valueFrom:
+      secretKeyRef:
+        name: px-vsphere-secret
+        key: VSPHERE_USER
+  - name: VSPHERE_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: px-vsphere-secret
+        key: VSPHERE_PASSWORD
+  - name: VSPHERE_VCENTER
+    value: "ps-vcenter-02.ps.labs.local"
+  - name: VSPHERE_VCENTER_PORT
+    value: "443"
+  - name: VSPHERE_DATASTORE_PREFIX
+    value: "pw-vmfs-"
+  - name: VSPHERE_INSTALL_MODE
+    value: "shared"
+

@@ -1,0 +1,9 @@
+# https://docs.netapp.com/us-en/netapp-solutions/containers/tanzu_with_netapp/vtwn_trident_ontap_iscsi.html
+#
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ontap-iscsi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"

@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+description: "netapp-acc-operator"
+displayName: netapp-acc-operator
+kind: ProjectRequest
+metadata:
+    name: netapp-acc-operator

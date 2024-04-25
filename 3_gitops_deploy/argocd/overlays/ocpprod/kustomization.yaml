@@ -1,0 +1,81 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+patches:
+# Update Git repo URL in AppProject
+- target:
+    kind: AppProject
+    name: cluster-config
+  patch: |-
+    - op: add
+      path: /spec/sourceRepos/-
+      value: 'https://gitlab.com/ignw1/internal/labs/presales-lab/applicationmodernization/ocp_poc.git'
+
+# Update Git repo URL and branch in all Applications
+- target:
+    group: argoproj.io
+    kind: Application
+  patch: |-
+    - op: replace
+      path: /spec/source/repoURL
+      value: 'https://gitlab.com/ignw1/internal/labs/presales-lab/applicationmodernization/ocp_poc.git'
+    - op: replace
+      path: /spec/source/targetRevision
+      value: main
+
+# Update Git repo path in each Application...
+- target:
+    kind: Application
+    name: argocd
+  patch: |-
+    - op: replace
+      path: /spec/source/path
+      value: './3_gitops_deploy/argocd/overlays/ocpprod'
+- target:
+    kind: Application
+    name: external-secrets
+  patch: |-
+    - op: replace
+      path: /spec/source/path
+      value: './3_gitops_deploy/external-secrets/overlays/ocpprod'
+- target:
+    kind: Application
+    name: ocp-tls-certificates
+  patch: |-
+    - op: replace
+      path: /spec/source/path
+      value: './3_gitops_deploy/ocp-tls-certificates/overlays/ocpprod'
+- target:
+    kind: Application
+    name: authentication
+  patch: |-
+    - op: replace
+      path: /spec/source/path
+      value: './3_gitops_deploy/authentication/overlays/ocpprod'
+
+# Limit which Groups can login to Argo CD
+- target:
+    kind: ArgoCD
+    name: openshift-gitops
+  patch: |-
+    - op: add
+      path: /spec/sso/dex/groups/-
+      value: 'OpenShift-Admins'
+- target:
+    kind: ArgoCD
+    name: openshift-gitops
+  patch: |-
+    - op: add
+      path: /spec/sso/dex/groups/-
+      value: 'OpenShift-ReadOnly'
+# Apply Argo CD RBAC to Groups
+- target:
+    kind: ArgoCD
+    name: openshift-gitops
+  patch: |-
+    - op: replace
+      path: /spec/rbac/policy
+      value: 'g, OpenShift-Admins, role:admin'

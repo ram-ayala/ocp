@@ -1,0 +1,4 @@
+# This is only able to be used if you have single storage array type within cluster.
+# This reaches direct through vCenter and creates disk from VMFS dynamically as portworx requires
+# Documentation: https://docs.portworx.com/portworx-enterprise/cloud-references/auto-disk-provisioning/vsphere 
+# How to define and configure vCenter for storage DRS is TBD

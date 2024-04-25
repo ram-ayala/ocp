@@ -1,0 +1,14 @@
+# In order for Argo CD to install external-secrets, it needs to be able
+# to create/manage CRDs, Validating Webhook Configurations, and ClusterSecretStores
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: openshift-gitops-create-global-resources
+subjects:
+- kind: ServiceAccount
+  name: openshift-gitops-argocd-application-controller
+  namespace: openshift-gitops
+roleRef:
+  kind: ClusterRole
+  name: openshift-gitops-create-global-resources
+  apiGroup: rbac.authorization.k8s.io

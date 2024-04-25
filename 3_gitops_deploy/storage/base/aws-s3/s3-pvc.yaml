@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-s3-backup
+  nameSpace: openshift-backup
+spec:
+  StorageClassName: "s3-client"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 150Gi
+  volumeName: pv-s3-backup

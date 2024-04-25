@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  ca-bundle.crt: replace_in_overlay
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: custom-ca
+  namespace: openshift-config

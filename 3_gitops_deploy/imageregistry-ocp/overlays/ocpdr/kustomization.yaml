@@ -1,0 +1,29 @@
+# This Image registry call kustomizes to use pure portwrox NFS export from storage class 
+# Ex:  ocpprod-ir  
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  # - ../storage/base/odf/  # To reference different storage system / type or this cluster
+patches:
+  # Update field for storage seperate NFS path to dr nfs eport <<<needs review with name: value multiples >>>>
+  - patch: |-
+      - op: replace
+        path: /template/spec/containers/env/
+        name: NFS_PATH
+        value: '/media/ocpdr-image-registry'
+      - op: replace
+        path: /template/spec/volumes/nfs/
+        server: k8bastion.ps.labs.local
+        path: '/media/ocpprod-image-registry'
+    target:
+      kind: Deployment
+      name: pvc-nfs-k8bastion
+  # Update field for storage to be 300Gb vs 150Gb
+  - patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage/
+        value: '300Gi'
+    target:
+      kind: PersistentVolumeClaim
+      name: pvc-nfs-k8bastion

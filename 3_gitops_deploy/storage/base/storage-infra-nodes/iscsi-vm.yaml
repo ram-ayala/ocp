@@ -1,0 +1,3 @@
+# https://docs.openshift.com/container-platform/4.14/storage/persistent_storage/persistent-storage-iscsi.html
+# No MPIO.  Core OS includes iSCSI initator package by default so this is covered
+# iSCSI Packages: iscsi-initiator-utils   package is already installed on deployments that use Red Hat Enterprise Linux CoreOS (RHCOS)

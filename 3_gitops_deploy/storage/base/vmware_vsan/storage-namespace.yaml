@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+description: "openshift-storage"
+displayName: openshift-storage
+kind: ProjectRequest
+metadata:
+    name: openshift-storage

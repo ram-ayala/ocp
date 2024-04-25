@@ -1,0 +1,13 @@
+# basic deployment of volume based on new Portworx storage configuration
+# needs review and update   This could / should be for NFS, object and iSCSI as all three types exist
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: pw-block-sc
+spec:
+    storageClassName: px-csi-test
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 2Gi

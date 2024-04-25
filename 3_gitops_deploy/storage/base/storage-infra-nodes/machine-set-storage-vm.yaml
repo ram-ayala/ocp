@@ -1,0 +1,58 @@
+# https://docs.openshift.com/container-platform/4.14/machine_management/creating-infrastructure-machinesets.html
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  name: ocpprod-8xltc-storage
+  annotations:
+    machine.openshift.io/memoryMb: '16384'
+    machine.openshift.io/vCPU: '8'
+  namespace: openshift-machine-api
+  labels:
+    machine.openshift.io/cluster-api-cluster: ocpprod-8xltc # Collect via oc scale --replicas=0 machineset <machineset> -n openshift-machine-api
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: ocpprod-8xltc # Collect via oc scale --replicas=0 machineset <machineset> -n openshift-machine-api
+      machine.openshift.io/cluster-api-machineset: ocpprod-8xltc-storage
+  template:
+    metadata:
+      labels:
+        machine.openshift.io/cluster-api-cluster: ocpprod-8xltc # Collect via oc scale --replicas=0 machineset <machineset> -n openshift-machine-api
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
+        machine.openshift.io/cluster-api-machineset: ocpprod-8xltc-storage
+        node-role.kubernetes.io/infra: ""
+        cluster.ocs.openshift.io/openshift-storage: ""
+    spec:
+      providerSpec:
+        value:
+          numCoresPerSocket: 48
+          diskGiB: 120
+          snapshot: ''
+          userDataSecret:
+            name: worker-user-data
+          memoryMiB: 16384
+          credentialsSecret:
+            name: vsphere-cloud-credentials
+          network:
+            devices:
+              - networkName: hx06|dynamic|vmnetwork135 # Based on cluster deployment
+          metadata:
+            creationTimestamp: null
+          numCPUs: 8
+          kind: VSphereMachineProviderSpec
+          workspace:
+            datacenter: dc1 # Based on cluster deployment
+            datastore: /dc1/datastore/hx06 # Based on cluster deployment
+            folder: /dc1/vm/redhat/openshift/ocpprod # Based on cluster deployment
+            resourcePool: /dc1/host/hx06/Resources/NormalVMs # Based on cluster deployment
+            server: ps-vcenter-02.ps.labs.local # Based on cluster deployment
+          template: ocpprod-8xltc-rhcos-generated-region-generated-zone # Based on cluster deployment
+          apiVersion: machine.openshift.io/v1beta1
+        taints:
+      taints:
+      - effect: NoSchedule
+        key: node.ocs.openshift.io/storage
+        value: "true"
+

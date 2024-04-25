@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+patches:
+- target:
+    kind: ClusterSecretStore
+    name: external-secrets-azure
+  patch: |-
+    - op: replace
+      path: /spec/provider/azurekv/tenantId
+      value: "b81d7c17-75bd-4272-8b31-171ea6c31427"
+    - op: replace
+      path: /spec/provider/azurekv/vaultUrl
+      value: "https://ocpdev-ps-labs-local.vault.azure.net/"

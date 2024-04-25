@@ -1,0 +1,16 @@
+# This Image registry call kustomizes to use basic linux NFS export from storage class 
+# Ex: ocpbastion.ps.labs.local   hosting NFS share for RWX storage 350Gb in size 
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  # - ../storage/base/odf/  # To reference different storage system / type or this cluster
+patches:
+  # Update field for storage to be 300Gb vs 150Gb
+  - patch: |-
+      - op: replace
+        path: /spec/capacity/storage
+        value: '350Gi'
+    target:
+      kind: PersistentVolume
+      name: image-registry-pv

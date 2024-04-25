@@ -1,0 +1,1 @@
+# This deployment path Assumes all block storage is pre-provisioned, and worker nodes are preped and ready for consumption of block storage.

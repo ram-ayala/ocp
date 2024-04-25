@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  # - rolebinding-storage-nfs.yaml # Example if specific yaml needed outside those in /base
+patches:
+  # Update field for storage to be 100Gb vs 150Gb
+  - patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: '200Gi'
+    target:
+      kind: PersistentVolumeClaim
+      name: pvc-nfs-k8bastion

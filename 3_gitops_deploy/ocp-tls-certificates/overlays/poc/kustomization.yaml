@@ -1,0 +1,37 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+
+patches:
+- target:
+    kind: ConfigMap
+    name: custom-ca
+  patch: |
+    - op: replace
+      path: /data/ca-bundle.crt
+      value: |
+        -----BEGIN CERTIFICATE-----
+        MIID+zCCAuOgAwIBAgIBADANBgkqhkiG9w0BAQsFADBdMRQwEgYDVQQDEwtudWNw
+        b2QwMS1jYTELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldhc2hpbmd0b24xEDAOBgNV
+        BAcTB1NlYXR0bGUxETAPBgNVBAoTCE51Y3BvZDAxMB4XDTIwMTAzMDIxNTUxN1oX
+        DTMwMTAyODIxNTUxN1owXTEUMBIGA1UEAxMLbnVjcG9kMDEtY2ExCzAJBgNVBAYT
+        AlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdTZWF0dGxlMREwDwYD
+        VQQKEwhOdWNwb2QwMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPb5
+        5APFUeEdr2oaS+rzqXYPLfWIq1rEBi9pTwDvKkLLvA9AQFLt8h4IC5JtxLrD7FgX
+        iBlyTpBVw5xlDIqs4HfsXY2yFHHnZfp1b98aaYaXyc+XkYjLKJoK9CgntncNzkfD
+        LpdAyxB9bEmzZSrLVM32bkFq7Y9aO0va7DDi1jjN61cNoACaizLf4qGNM9YLM9tn
+        WzUILpmz/HNXoX/sYYoLJePygcgVL5Ho2x77u+d3Qwr7eUmxaInnxpKqQr5y/j7Q
+        RMQXGEKehnmccKedQuMjkzXHy3jJETCE8Egyp8TlVqxKGHkAxT7mCMCeAy6NWtFG
+        cnGdjbCKDTnjDSdgeQ0CAwEAAaOBxTCBwjAdBgNVHQ4EFgQUoT8HuAqmoch7SG5t
+        ZsqpgJxw/d8wgYUGA1UdIwR+MHyAFKE/B7gKpqHIe0hubWbKqYCccP3foWGkXzBd
+        MRQwEgYDVQQDEwtudWNwb2QwMS1jYTELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldh
+        c2hpbmd0b24xEDAOBgNVBAcTB1NlYXR0bGUxETAPBgNVBAoTCE51Y3BvZDAxggEA
+        MAwGA1UdEwQFMAMBAf8wCwYDVR0PBAQDAgEGMA0GCSqGSIb3DQEBCwUAA4IBAQBo
+        hlDX5y8o0c/keBYUCy+QSWGgENtTwbHXne36pmF5QgFAiMzIdTDOx8lELkA+LYrh
+        6eAwXOCshsBHlJ4wSliyqd01Nns04wzyKD6KhX6oGEuIngCXrguMI0FLrThzCVHL
+        bGI0dpaQQ7wyeViQDsPBfSQgoscvL414m3pYvb3Ts8yNxXi6FNj6LgMk/QQJ0nbO
+        1RqBfrWUKUMAzkKCPw9SIonC9y9DrlZ2jLhsxu9GAdkvlo0iNTAEgJ5r1u7g+83n
+        4BhgGvuIMCdQXaW3d6V0NOpyIorBO9CF47PsYg9wjCMcOJIYNmjIsCbH26CXYPc7
+        MCZDXISkQUZ2jqMRM/O+
+        -----END CERTIFICATE-----

@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../storage-infra-nodes
+  - portworx-pure-operator.yaml
+  - portworx-spec.yaml
+  - iscsi-storage-class.yaml
+  # - iscsi-rbac.yaml
+  - iscsi-pvc.yaml
+  - iscsi-pv.yaml

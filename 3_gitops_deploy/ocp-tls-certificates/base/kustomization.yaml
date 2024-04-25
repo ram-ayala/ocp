@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Give Argo CD permissions to the openshift-ingress namespace
+  - rolebinding-argocd.yaml
+  # Create a ConfigMap with the org's CA certificate to trust
+  - configmap-custom-ca.yaml
+  # Patch the cluster's Proxy resource to use the ConfigMap with the trusted CA
+  - proxy-cluster.yaml
+  # Create a Secret with the ingress controller's TLS wildcard certificate chain
+  - externalsecret-ingress-certificate.yaml
+  # Patch the ingress controller to use the secret with the TLS wildcard certificate chain
+  - ingresscontroller-default.yaml

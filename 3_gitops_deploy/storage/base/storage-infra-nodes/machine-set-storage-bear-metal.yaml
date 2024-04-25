@@ -1,0 +1,4 @@
+# This reflects a machine-set for bear metal hosts. This would assume deployment of coreos already setup and this would reflect using that framework to define machine-set if goal is to build storage infra nodes.
+# Ex: DAS rich servers for HCI storage use such as ODF, Portworx, IBM SpectroScale etc....
+# https://docs.openshift.com/container-platform/4.14/machine_management/creating-infrastructure-machinesets.html
+# Future Plan on how to build this

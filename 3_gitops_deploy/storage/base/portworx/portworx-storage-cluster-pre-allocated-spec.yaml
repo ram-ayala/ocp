@@ -1,0 +1,50 @@
+# After Operator installed Portworx storage cluster configured
+# https://docs.portworx.com/portworx-enterprise/reference/crd/storage-cluster
+apiVersion: core.libopenstorage.org/v1
+kind: StorageCluster
+metadata:
+  name: portworx
+  namespace: k8-storage
+spec:
+  image: portworx/oci-monitor:3.0
+  # storage: # Optional if you pre-allocate storage or have SAS
+  #   devices:
+  #   - /dev/sda
+  #   - /dev/sdb
+  # nodes: # Optional if you pre-allocate storage or have SAS
+  # - selector:
+  #     labelSelector:
+  #       matchLabels:
+  #         px/storage: "nvme"
+  #   storage:
+  #     devices:
+  #     - /dev/nvme1
+  #     - /dev/nvme2
+  # - selector:
+  #   labelSelector:
+  #     matchLabels:
+  #       px/storage: "false"
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 20%
+  deleteStrategy:
+    type: UninstallAndWipe
+  placement:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: px/enabled
+            operator: NotIn
+            values:
+            - "false"
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: node-role.kubernetes.io/worker
+            operator: Exists
+    tolerations:
+    - key: infra/node
+      operator: Equal
+      value: "true"
+      effect: NoExecute 

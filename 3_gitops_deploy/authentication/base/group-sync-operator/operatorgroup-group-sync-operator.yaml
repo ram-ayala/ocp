@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    olm.providedAPIs: GroupSync.v1alpha1.redhatcop.redhat.io
+    argocd.argoproj.io/sync-wave: "-2" # Install Group Sync Operator first
+  name: group-sync-operator
+  namespace: group-sync-operator
+spec:
+  targetNamespaces:
+  - group-sync-operator

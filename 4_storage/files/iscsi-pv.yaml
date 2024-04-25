@@ -1,0 +1,24 @@
+# Definition of Persistent Volume type for iSCSI
+# Below example does NOT format file system or mount. This would be raw volume, for use by HCI stack suck as Pure, or ODF
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: iscsi-block-pv
+spec:
+  storageClassName: iscsi-block-sc
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: 10.89.70.10:3260  #dash-pure-x20-msp.ps.labs.local. four 24Gb interfaces 
+    portals: ['10.89.70.11:3260', '10.89.70.12:3260', '10.89.70.13:3260'] 
+    lun: 0  # not sure if this is counter productive to manually manipulate
+    # fsType: ext4 # only used if you want to format volume and mount
+    readOnly: false
+    # hostPath:  # only used if you want to format volume and mount
+    # path: “/tmp/data” 
+    # chapAuthDiscovery: true 
+    # chapAuthSession: true 
+    # secretRef:
+    #   name: chap-secret 

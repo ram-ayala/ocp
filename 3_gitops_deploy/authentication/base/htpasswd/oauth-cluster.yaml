@@ -1,0 +1,11 @@
+---
+## Add Patch Op
+- op: add
+  path: /spec/identityProviders/0
+  value:
+    htpasswd:
+      fileData:
+        name: htpasswd-file
+    name: HTPasswd
+    mappingMethod: claim
+    type: HTPasswd

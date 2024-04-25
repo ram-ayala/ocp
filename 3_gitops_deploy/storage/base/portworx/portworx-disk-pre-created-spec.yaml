@@ -1,0 +1,19 @@
+# Portworx needs to consume block disk or block device (iSCSI, FC, NMVME etc..)
+# You must provided and configur DAS or MPIO for disk.  Portworx is not able to handle this
+# Start of this deployment assumes minimum four nodes with taint set of "storage-nodes" with nodes having common structure of block devices assigned
+# Ex:  ocp-pw-storage-[01-04]  each having   1 x flash for cache,  3 x block ---> lsblk /dev/nvme0-5  
+# This yaml will check for above state on each node
+# This is spec file for Portworx to use for Storage that is pre-allocated to nodes created as machine-set for "stoarge" taint and "infrastructure" type
+# This needs vetting out
+
+
+# check and list nodes set with tain "stoarge-nodes"
+
+
+
+# Optional: Check for mpio drivers and paths 
+
+
+
+
+

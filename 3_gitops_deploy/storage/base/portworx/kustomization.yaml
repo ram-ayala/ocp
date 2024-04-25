@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - storage-namespace.yaml
+  # - pure-storage-api-key.yaml --> I think this needs to be uploaded into secret in vault  But not sure this is needed if Pure Stoage json already done.
+  #- ../storage-infra-nodes  # Issue: May be required or modified via tags to get storage infra dedicated machine-set nodes. 
+  - portworx-vsphere-secrets.yaml
+  - portworx-cloud-drive.yaml  # This only works with allocation from direct vmfs vdisk to worker / storage nodes
+  - portworx-vmfs-spec.yaml # Choose your "spec file" based on storage enviornment.  This is for Basic VMFS with VMWare CSI
+  - portworx-pure-operator.yaml # Issue: This is NOT installing  operator same as GUI.  
+  - portworx-storage-cluster.yaml
+  - portworx-storage-node.yaml # need better example
+  - portworx-sc.yaml
+  - portworx-pv.yaml

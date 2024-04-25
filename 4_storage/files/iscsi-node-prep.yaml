@@ -1,0 +1,13 @@
+# provision of any iscsi mapping to worker / container, the cusotmer is responsible to build and deploy depdndancies and HA / SLA design
+# provisioning will assume worker nodes, will require MPIO and iSCSI driver and check path access to storage iqn targets per table
+
+# Creeate worker "host" node definition in iSCSI storage array  I think we may need CSI driver for PURE
+
+
+# Check iqn communication for worker nodes.
+
+# UDev rules for tuning and avoiding lock issues
+ACTION=="add|change", KERNEL=="sd*[!0-9]", SUBSYSTEM=="block", ENV{ID_VENDOR}=="PURE", ATTR{queue/max_sectors_kb}="4096"
+
+
+# Optional:  CHAP security

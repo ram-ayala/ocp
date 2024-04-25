@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: cluster-config
+  namespace: openshift-gitops
+  # Finalizer ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for the local cluster's configuration and cluster-level services
+
+  sourceRepos: []
+
+  destinations:
+  - namespace: 'openshift-operators'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'openshift-gitops'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'external-secrets'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'openshift-config'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'group-sync-operator'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'openshift-ingress'
+    server: 'https://kubernetes.default.svc'
+  - namespace: 'openshift-ingress-operator'
+    server: 'https://kubernetes.default.svc'
+
+  # Permit cluster-scoped resources to be created
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'

@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+description: "openshift-backup"
+displayName: openshift-backup
+kind: ProjectRequest
+metadata:
+    name: openshift-backup

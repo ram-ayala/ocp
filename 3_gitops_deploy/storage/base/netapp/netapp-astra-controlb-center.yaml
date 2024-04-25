@@ -1,0 +1,28 @@
+# Pulled from GUI operator install post configuration but needs work
+#  This need help.  Not sure on what this is speakign to when it expects ingress already working and DNS done and registry done.
+# The below was pulled from UI of deploying astra... 
+kind: AstraControlCenter
+apiVersion: astra.netapp.io/v1
+metadata:
+  name: astra
+  namespace: netapp-acc-operator
+spec:
+  accountName: Example
+  additionalValues: {}
+  astraAddress: astra.ocpprod.ps.labs.local.com
+  astraResourcesScaler: Default
+  astraVersion: 23.10.0-68
+  autoSupport:
+    enrolled: true
+  crds:
+    externalCertManager: false
+    externalTraefik: false
+  email: admin@ps.labs.local.com
+  firstName: SRE
+  imageRegistry:
+    name: example.registry/astra
+    secret: astra-registry-cred  #  Needs work
+  ingressType: Generic
+  lastName: Admin
+  storageClass: ontap-gold
+  volumeReclaimPolicy: Retain

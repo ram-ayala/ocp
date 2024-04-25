@@ -1,0 +1,24 @@
+{
+    "FlashArrays": [
+        {
+            "MgmtEndPoint": "dash-pure-x20-msp.ps.labs.local",
+            "APIToken": "6zWk9oc2TS0zmhVq"
+        },
+        {
+            "MgmtEndPoint": "dash-pure-x20-msp.ps.labs.local",
+            "APIToken": "6zWk9oc2TS0zmhVq"
+        }
+    ],
+    "FlashBlades": [
+        {
+            "MgmtEndPoint": "acl-p-msp-cl01.ps.labs.local",
+            "APIToken": "52cf8fbd-2270-41f4-ae3c-72f3a99f1880",
+            "NFSEndPoint": "10.89.195.10"
+        },
+        {
+            "MgmtEndPoint": "acl-p-msp-cl01.ps.labs.local",
+            "APIToken": "52cf8fbd-2270-41f4-ae3c-72f3a99f1880",
+            "NFSEndPoint": "10.89.195.10"
+        }
+    ]
+}

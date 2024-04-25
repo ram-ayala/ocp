@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  # Create Rolebindings for Groups in GroupSync Below
+  # TODO: Discuss w/ team how we should include these..
+  - rolebinding-group-sync.yaml
+patches:
+  # Inject LDAP Auth Config
+  - patch: |-
+      - op: replace
+        path: /spec/identityProviders/1/ldap/bindDN
+        value: 'CN=Open Shift,OU=ps,DC=labs,DC=local'
+      - op: replace
+        path: /spec/identityProviders/1/ldap/url
+        value: 'ldap://VH1C2022DC2.labs.local:389/DC=labs,DC=local?sAMAccountName?sub'
+    target:
+      kind: OAuth
+      name: cluster
+  # Inject LDAP GroupSync Config
+  - patch: |-
+      - op: replace
+        path: /spec/providers/0/ldap/url
+        value: 'ldap://VH1C2022DC2.labs.local:389'
+      - op: replace
+        path: /spec/providers/0/ldap/augmentedActiveDirectory/groupsQuery/baseDN
+        value: 'DC=labs,DC=local'
+      - op: replace
+        path: /spec/providers/0/ldap/augmentedActiveDirectory/usersQuery/baseDN
+        value: 'DC=labs,DC=local'
+      - op: add
+        path: /spec/providers/0/ldap/whitelist/-
+        value: 'CN=OpenShift-Admins,OU=ps,DC=labs,DC=local'
+      - op: add
+        path: /spec/providers/0/ldap/whitelist/-
+        value: 'CN=OpenShift-ReadOnly,OU=ps,DC=labs,DC=local'
+    target:
+      kind: GroupSync
+      name: ldap

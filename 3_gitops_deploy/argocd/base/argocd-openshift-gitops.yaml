@@ -1,0 +1,31 @@
+# Fields Documentation: https://docs.openshift.com/container-platform/4.13/cicd/gitops/argo-cd-custom-resource-properties.html
+# Note that while the documentation shows the fields in upper camel case (capital first letter),
+# they actually need to be in lower camel case (lower case first letter).
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: openshift-gitops
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  kustomizeBuildOptions: "--enable-helm"
+  server:
+    route:
+      enabled: true
+      tls:
+        # Reuse the ingress TLS certificate (*.apps...) instead of a self-signed cert
+        insecureEdgeTerminationPolicy: Redirect
+        termination: reencrypt
+# These 4 lines to enable the OpenShift OAuth integration are there by default
+  sso:
+    provider: dex
+    dex:
+      openShiftOAuth: true
+# Add the rest to configure groups/RBAC
+# https://argocd-operator.readthedocs.io/en/latest/usage/dex/#dex-openshift-oauth-connector
+      groups: []
+  rbac:
+    defaultPolicy: 'role:readonly'
+    policy: "replace_in_overlay"
+    scopes: '[groups]'

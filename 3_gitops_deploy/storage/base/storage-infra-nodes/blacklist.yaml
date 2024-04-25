@@ -1,0 +1,2 @@
+# This file is to create required kernel exclusions for block disk NOT to be consumed or referenced.  
+# Ex:  DAS or RDMS for hosts

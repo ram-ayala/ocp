@@ -1,0 +1,9 @@
+apiVersion: core.libopenstorage.org/v1
+kind: StorageCluster
+metadata:
+  name: portworx
+  labels:
+    storage: portwrox-vmfs # I think this needs to shift to use and call to use Pure Allflash iSCSI Volume vs VMWare CSI "vmfs-thin"
+  annotations:
+    portworx.io/is-openshift: 'true'
+  namespace: k8-storage

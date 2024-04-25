@@ -1,0 +1,23 @@
+---
+# Add Patch Op
+- op: add
+  path: /spec/identityProviders/1
+  value:
+    ldap:
+      attributes:
+        email:
+          - mail
+        id:
+          - sAMAccountName
+        name:
+          - cn
+        preferredUsername:
+          - sAMAccountName
+      bindDN: "replace_in_overlay"
+      bindPassword:
+        name: ldap-bind
+      insecure: true
+      url: "replace_in_overlay"
+    mappingMethod: claim
+    name: Active Directory
+    type: LDAP

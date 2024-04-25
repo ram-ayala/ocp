@@ -1,0 +1,7 @@
+# pulled from UI install
+apiVersion: core.libopenstorage.org/v1
+kind: StorageNode
+metadata:
+  name: pw-storage-node
+  namespace: k8-storage
+spec: {}

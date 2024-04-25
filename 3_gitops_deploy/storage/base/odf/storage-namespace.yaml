@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+description: "k8-storage"
+displayName: k8-storage
+kind: ProjectRequest
+metadata:
+    name: k8-storage

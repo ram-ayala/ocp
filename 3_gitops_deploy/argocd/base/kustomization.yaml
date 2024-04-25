@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - subscription-openshift-gitops-operator.yaml
+  # Optional - enable this if you want to give Argo CD permissions to manage any resource, anywhere in the cluster
+  # - optional-clusterrolebinding-argocd-application-controller.yaml
+  - clusterrole-openshift-gitops-create-global-resources.yaml
+  - clusterrolebinding-openshift-gitops-create-global-resources.yaml
+  - argocd-openshift-gitops.yaml
+  - projects/cluster-config.yaml
+  - apps/argocd.yaml
+  - apps/external-secrets.yaml
+  - apps/ocp-tls-certificates.yaml
+  - apps/authentication.yaml

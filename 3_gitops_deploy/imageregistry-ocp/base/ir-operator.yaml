@@ -1,0 +1,18 @@
+# Goal: using Red Hat's recommendations of how to patch IR to consume new RWX storage, and increase replica count for NSPOF
+# oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"rolloutStrategy":"Recreate","replicas":3}}'
+# oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"storage":{"pvc":{"claim":"pvc-nfs-bastion"}}, "managementState": "Managed"}}'
+# oc patch configs.imageregistry.operator.openshift.io/cluster --type merge -p '{"spec":{"defaultRoute":true}}'
+# Pull from cluster: oc get config.imageregistry.operator.openshift.io/cluster -o yaml |less
+apiVersion: imageregistry.operator.openshift.io/v1
+kind: Config
+metadata:
+  name: cluster
+spec:
+  rolloutStrategy: Recreate
+  managementState: Managed
+  replicas: 3
+  storage: 
+    pvc: 
+      claim: image-registry-pvc
+    managementState: Unmanaged
+  defaultRoute: true

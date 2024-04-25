@@ -1,0 +1,19 @@
+# Reference: https://docs.openshift.com/container-platform/4.13/cicd/gitops/installing-openshift-gitops.html
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-gitops-operator
+  namespace: openshift-operators
+spec:
+  # For available channels, look in OperatorHub within your OpenShift Console
+  channel: gitops-1.9
+  installPlanApproval: Automatic
+  name: openshift-gitops-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  # Add this env var to allow Argo CD to manage cluster-scoped resources
+  # https://docs.openshift.com/container-platform/4.13/cicd/gitops/configuring-an-openshift-cluster-by-deploying-an-application-with-cluster-configurations.html
+  config:
+    env:
+    - name: ARGOCD_CLUSTER_CONFIG_NAMESPACES
+      value: openshift-gitops

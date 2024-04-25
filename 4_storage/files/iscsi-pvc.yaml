@@ -1,0 +1,13 @@
+# Deployment of Persistent Volumem claim type for iSCSI 
+# Ex: 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: iscsi-block-pvc
+spec:
+  accessModes:  
+  - ReadWriteOnce
+  resources: 
+    requests: 
+      storage: 10Gi 
+  storageClassName:  iscsi-block-sc

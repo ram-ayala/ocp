@@ -1,0 +1,36 @@
+# Kernel and Driver enhancements to enable use of exenral iSCSI storage arrays
+# https://access.redhat.com/solutions/5170251
+# https://docs.openshift.com/container-platform/4.14/storage/persistent_storage/persistent-storage-iscsi.html
+# iSCSI Packages: iscsi-initiator-utils   package is already installed on deployments that use Red Hat Enterprise Linux CoreOS (RHCOS)
+# This is futre plan.
+
+cat << 'EOF' | oc create -f -
+kind: MachineConfig
+apiVersion: machineconfiguration.openshift.io/v1
+metadata:
+  name: 99-worker-custom-isci-initiatorname
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    systemd:
+      units:
+        - contents: |
+            [Unit]
+            Description=Custom CoreOS Generate iSCSI Initiator Name
+            Before=coreos-generate-iscsi-initiatorname.service
+            Before=iscsid.service
+
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/bin/sh -c 'echo "InitiatorName=`hostname`" > /etc/iscsi/initiatorname.iscsi'
+            # ExecStart=/usr/bin/sh -c 'sleep 30; echo "InitiatorName=`hostname`" > /etc/iscsi/initiatorname.iscsi'  # Use this for DHCP enabled hosts
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          name: custom-coreos-generate-iscsi-initiatorname.service
+          enabled: true
+EOF

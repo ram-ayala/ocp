@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-bastion
+  nameSpace: openshift-image-registry
+  labels:
+    name: pv-nfs-bastion
+spec:
+  storageClassName: "nfs-client"
+  claimRef:
+    name: pvc-nfs-bastion
+    namespace: openshift-image-registry
+  capacity:
+    storage: 200Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    path: /media/ocpprod-image-registry
+    server: k8bastion.ps.labs.local
+  persistentVolumeReclaimPolicy: Retain

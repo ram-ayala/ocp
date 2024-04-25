@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-s3-backup
+  nameSpace: openshift-backup
+  labels:
+    name: pv-s3-backup
+spec:
+  storageClassName: "s3-client"
+  claimRef:
+    name: pvc-s3-backup
+    namespace: openshift-backup
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteMany
+  # nfs:
+  #   path: /media/ocpprod-image-registry
+  #   server: k8bastion.ps.labs.local
+  # persistentVolumeReclaimPolicy: Retain

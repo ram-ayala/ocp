@@ -1,0 +1,1 @@
+# Openshift managed as service in Azure

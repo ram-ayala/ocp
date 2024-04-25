@@ -1,0 +1,37 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupSync
+metadata:
+  name: ldap
+  namespace: group-sync-operator
+  annotations:
+    # Required if CRD doesn't exist yet (it gets created by the operator's subscription)
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  # Sync groups every night at midnight
+  schedule: "0 0 * * *"
+  providers:
+    - ldap:
+        credentialsSecret:
+          name: ldap-group-sync-bind
+          namespace: group-sync-operator
+        insecure: true
+        augmentedActiveDirectory:
+          groupsQuery:
+            baseDN: "replace_in_overlay"
+            scope: sub
+            derefAliases: never
+            pageSize: 0
+          groupUIDAttribute: dn
+          groupNameAttributes: [cn]
+          usersQuery:
+            baseDN: "replace_in_overlay"
+            scope: sub
+            derefAliases: never
+            filter: (objectclass=person)
+            pageSize: 0
+          userNameAttributes: [sAMAccountName]
+          groupMembershipAttributes: ["memberOf:1.2.840.113556.1.4.1941:"]
+        url: "replace_in_overlay"
+        whitelist: []
+        prune: false
+      name: ldap

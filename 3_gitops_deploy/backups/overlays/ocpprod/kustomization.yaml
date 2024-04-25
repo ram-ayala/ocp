@@ -1,0 +1,16 @@
+# Use basic backup of etc via native k8 velero
+# Ex: ocpprod cluster backup to Object bucket in AWS
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/velero/
+  # - ../storage/base/odf/  # To reference different storage system / type or this cluster
+patches:
+  # Update field for storage to be 300Gb vs 150Gb
+  # - patch: |-
+  #     - op: replace
+  #       path: /spec/capacity/storage
+  #       value: 300Gi
+  #   target:
+  #     kind: PersistentVolume
+  #     name: pv-nfs-bastion

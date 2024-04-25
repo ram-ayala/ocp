@@ -1,0 +1,11 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: manage-groupsyncs
+  namespace: group-sync-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" # prevent deletion until all other resources are deleted
+rules:
+- apiGroups: ["redhatcop.redhat.io"]
+  resources: ["groupsyncs"]
+  verbs: ["*"]

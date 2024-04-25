@@ -1,0 +1,30 @@
+# https://cloud.redhat.com/blog/velero-backup-and-restore-of-an-application-using-gp2-storageclass-on-rosa
+apiVersion: konveyor.openshift.io/v1alpha1
+kind: Velero
+metadata:
+  name: example-velero
+  namespace: oadp-operator
+spec:
+  olm_managed: true
+  backup_storage_locations:
+        - config:
+            profile: "default"
+            region: us-west-2
+          credentials_secret_ref:
+            name: cloud-credentials
+            namespace: oadp-operator
+          name: default
+          object_storage:
+            bucket: managed-velero-backups-1dc95bf4-3830-4231-904a-7782bd14f79e
+            prefix: "velero"
+          provider: aws
+  default_velero_plugins:
+        - aws
+        - openshift
+  enable_restic: true
+  volume_snapshot_locations:
+        - config:
+            profile: default
+            region: us-west-2
+          name: default
+          provider: aws

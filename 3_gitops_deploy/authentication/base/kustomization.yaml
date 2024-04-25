@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Deploy the GroupSync Operator
+  - group-sync-operator/namespace-group-sync-operator.yaml
+  - group-sync-operator/operatorgroup-group-sync-operator.yaml
+  - group-sync-operator/subscription-group-sync-operator.yaml
+  # Allow Argo CD service account to manage resources in openshift-config and group-sync-operator
+  - role-argocd.yaml
+  - rolebindings-argocd.yaml
+  # Configure HTPasswd
+  - htpasswd/externalsecret-htpasswd-file.yaml
+  - htpasswd/rolebinding-htpasswd-localadmin.yaml
+  # Configure LDAP/GroupSync
+  - ldap/externalsecret-ldap-bind.yaml
+  - ldap/externalsecret-ldap-group-sync-bind.yaml
+  - ldap/groupsync-ldap.yaml
+  # Base OAuth object
+  - oauth-cluster.yaml
+patches:
+  # Add in all Authentication Mechanisms
+  - path: htpasswd/oauth-cluster.yaml
+    target:
+      kind: OAuth
+      name: cluster
+  - path: ldap/oauth-cluster.yaml
+    target:
+      kind: OAuth
+      name: cluster

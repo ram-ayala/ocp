@@ -1,0 +1,13 @@
+# Really not clear where or how they want this deployed
+#https://docs.netapp.com/us-en/netapp-solutions/containers/tanzu_with_netapp/vtwn_trident_ontap_iscsi.html#create-an-svm-in-ontap
+#
+{
+  "version": 1,
+  "storageDriverName": "ontap-san",
+  "backendName": "ontap-san+10.61.181.231",
+  "managementLIF": "172.21.224.201",
+  "dataLIF": "10.61.181.231",
+  "svm": "trident_svm_iscsi",
+  "username": "admin",
+  "password": "password"
+}

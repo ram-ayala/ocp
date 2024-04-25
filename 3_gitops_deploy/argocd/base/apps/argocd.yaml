@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-gitops
+    name: in-cluster
+  project: cluster-config
+  source:
+    path: replace_in_overlay
+    repoURL: replace_in_overlay
+    targetRevision: replace_in_overlay
+  syncPolicy:
+    # Don't uninstall Argo CD if the argocd app is deleted
+    automated:
+      prune: false

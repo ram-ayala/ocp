@@ -1,0 +1,47 @@
+# Copied from the default open source Argo CD installation:
+# Use this if you want to blanket-allow Argo CD to deploy anything to anywhere in the
+# cluster, instead of creating specific ClusterRoleBindings, or RoleBindings in each
+# individual target namespace.
+# https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    argocds.argoproj.io/name: openshift-gitops
+    argocds.argoproj.io/namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: openshift-gitops
+    app.kubernetes.io/part-of: argocd
+  name: argocd-application-controller
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- nonResourceURLs:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    argocds.argoproj.io/name: openshift-gitops
+    argocds.argoproj.io/namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: openshift-gitops
+    app.kubernetes.io/part-of: argocd
+  name: argocd-application-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argocd-application-controller
+subjects:
+- kind: ServiceAccount
+  name: openshift-gitops-argocd-application-controller
+  namespace: openshift-gitops

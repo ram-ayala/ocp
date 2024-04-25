@@ -1,0 +1,48 @@
+# Generate storage spec to match your underlying storage system for portwrox to bind to with CSI driver link
+# https://central.portworx.com/specGen/wizard
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=portworx&b=true&iop=6&s=%22size%3D150%22&pureSanType=ISCSI&r=17001&c=px-cluster-iscsi-5bc24422-d585-4a6e-9af8-313cd3218f18&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&vsp=true&vc=ps-vcenter-02.ps.labs.local&vcp=443&ds=portwrox-&s=%22type%3Dlazyzeroedthick%2Csize%3D150%22&r=17001&c=px-cluster-a9950af8-8c69-4279-a25a-7ba0315282a9&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+# This is spec file for Portworx to use for Storage:  Type: PureAllFlash Class: iSCSI With use of non-dedicated NIC / VM
+# Spec saved in pureone as: https://central.portworx.com/specGen/list    portworx-pure-allflash-iscsi-spec
+# Storage type is iSCSI, cluster prelable "px-pure-iscsi", create storage for workers to create 150GB usable space
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&s=%22size%3D150%22&j=auto&pureSanType=ISCSI&r=17001&c=px-pure-iscsi-da1496ff-2de8-429e-8fbb-c32c688a7e87&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-pure-iscsi-da1496ff-2de8-429e-8fbb-c32c688a7e87
+  namespace: k8-storage
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=1.25.0&ns=k8-storage&b=true&iop=6&s=%22size%3D150%22&j=auto&pureSanType=ISCSI&r=17001&c=px-pure-iscsi-da1496ff-2de8-429e-8fbb-c32c688a7e87&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true"
+    portworx.io/is-openshift: "true"
+spec:
+  image: portworx/oci-monitor:3.0.4
+  imagePullPolicy: Always
+  kvdb:
+    internal: true
+  cloudStorage:
+    deviceSpecs:
+    - size=150
+    journalDeviceSpec: auto
+  secretsProvider: k8s
+  startPort: 17001
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "true"
+  autopilot:
+    enabled: true
+  runtimeOptions:
+    default-io-profile: "6"
+  csi:
+    enabled: true
+  monitoring:
+    telemetry:
+      enabled: true
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  env:
+  - name: PURE_FLASHARRAY_SAN_TYPE
+    value: "ISCSI"
+
+
